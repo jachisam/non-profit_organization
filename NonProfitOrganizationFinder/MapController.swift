@@ -5,10 +5,6 @@
 //  Created by Jordan Chisam, Eesha Sabherwal on 11/12/17.
 //  Copyright © 2017 Jordan Chisam, Eesha Sabherwal. All rights reserved.
 //
-
-
-//EESHA MADE A CHANGE
-
 //https://stackoverflow.com/questions/40894722/swift-mkmapview-drop-a-pin-annotation-to-current-location
 
 import UIKit
