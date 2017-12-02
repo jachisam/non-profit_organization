@@ -12,6 +12,7 @@
 		6860A3641FD2419500D667DB /* NonProfitOrganization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6860A3631FD2419500D667DB /* NonProfitOrganization.swift */; };
 		6860A3661FD246B900D667DB /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6860A3651FD246B900D667DB /* SwiftyJSON.swift */; };
 		6860A3681FD2508600D667DB /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6860A3671FD2508600D667DB /* WebViewController.swift */; };
+		E329F04E1FD2FB8800AA30E1 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E329F04D1FD2FB8800AA30E1 /* ListViewController.swift */; };
 		E3D39C4A1FB91F0E0050A89B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D39C491FB91F0E0050A89B /* AppDelegate.swift */; };
 		E3D39C4F1FB91F0E0050A89B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3D39C4D1FB91F0E0050A89B /* Main.storyboard */; };
 		E3D39C511FB91F0E0050A89B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E3D39C501FB91F0E0050A89B /* Assets.xcassets */; };
@@ -63,6 +64,7 @@
 		6860A3631FD2419500D667DB /* NonProfitOrganization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NonProfitOrganization.swift; sourceTree = "<group>"; };
 		6860A3651FD246B900D667DB /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		6860A3671FD2508600D667DB /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		E329F04D1FD2FB8800AA30E1 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		E3D39C461FB91F0E0050A89B /* NonProfitOrganizationFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NonProfitOrganizationFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3D39C491FB91F0E0050A89B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E3D39C4E1FB91F0E0050A89B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				E3D39C771FB920840050A89B /* Images */,
 				E3D39C491FB91F0E0050A89B /* AppDelegate.swift */,
 				E3D39C9C1FB92DEC0050A89B /* MapController.swift */,
+				E329F04D1FD2FB8800AA30E1 /* ListViewController.swift */,
 				4F7D2C0C1FC2014B0070F9E1 /* SettingsViewController.swift */,
 				E3D39C9E1FB932880050A89B /* FavoritesController.swift */,
 				4F17AC6B1FC1F2350002915D /* DetailedViewController.swift */,
@@ -362,6 +365,7 @@
 				E3D39C4A1FB91F0E0050A89B /* AppDelegate.swift in Sources */,
 				4F17AC6C1FC1F2350002915D /* DetailedViewController.swift in Sources */,
 				4F7D2C0D1FC2014B0070F9E1 /* SettingsViewController.swift in Sources */,
+				E329F04E1FD2FB8800AA30E1 /* ListViewController.swift in Sources */,
 				6860A3661FD246B900D667DB /* SwiftyJSON.swift in Sources */,
 				E3D39C9F1FB932880050A89B /* FavoritesController.swift in Sources */,
 				6860A3681FD2508600D667DB /* WebViewController.swift in Sources */,
