@@ -14,7 +14,7 @@
             <objects>
                 <navigationController id="NC1-q1-8ua" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Map" image="map_marker.png" id="e8Y-qH-nfc"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="DSN-Hx-fRH">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="DSN-Hx-fRH">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -26,7 +26,7 @@
             </objects>
             <point key="canvasLocation" x="1014" y="-313"/>
         </scene>
-        <!--Map Controller-->
+        <!--Reach Out-->
         <scene sceneID="mCB-JC-VEY">
             <objects>
                 <viewController id="djw-mj-o3K" customClass="MapController" customModule="NonProfitOrganizationFinder" customModuleProvider="target" sceneMemberID="viewController">
@@ -50,7 +50,8 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="NI3-vW-Rmu">
+                    <navigationItem key="navigationItem" title="Reach Out" id="NI3-vW-Rmu" userLabel="Map">
+                        <barButtonItem key="backBarButtonItem" title="Map" id="Y2h-am-Fd0"/>
                         <barButtonItem key="leftBarButtonItem" style="plain" id="2NQ-v8-opT">
                             <switch key="customView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="cjw-cW-Xgj">
                                 <rect key="frame" x="16" y="6" width="51" height="31"/>
@@ -95,42 +96,76 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name of Organization" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LdG-T1-8Kg">
-                                <rect key="frame" x="51" y="75" width="273" height="37"/>
+                                <rect key="frame" x="16" y="57" width="343" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HjV-cc-Dc1">
-                                <rect key="frame" x="117" y="142" width="141" height="110"/>
+                                <rect key="frame" x="117" y="120" width="141" height="110"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fHE-eZ-XcH">
-                                <rect key="frame" x="140" y="523" width="94" height="45"/>
+                                <rect key="frame" x="51" y="558" width="94" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Favorite"/>
+                                <connections>
+                                    <action selector="saveToFavorites:" destination="ZcH-No-wJw" eventType="touchUpInside" id="F0Q-OI-XS3"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="tcW-Xk-gDD">
+                                <rect key="frame" x="51" y="255" width="273" height="295"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i83-0a-QRM">
+                                <rect key="frame" x="212" y="560" width="90" height="43"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Donate"/>
+                                <connections>
+                                    <segue destination="pS7-YT-2kh" kind="show" identifier="pushWeb" id="fG7-65-n7b"/>
+                                </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Description" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eua-bx-34F">
-                                <rect key="frame" x="41" y="288" width="292" height="193"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="info" destination="tcW-Xk-gDD" id="0AR-PW-yRF"/>
+                        <outlet property="name" destination="LdG-T1-8Kg" id="mPO-43-WUQ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L9G-CE-iyt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3785" y="-530"/>
+            <point key="canvasLocation" x="3969" y="-661"/>
+        </scene>
+        <!--Web View Controller-->
+        <scene sceneID="4cD-Jy-8Df">
+            <objects>
+                <viewController id="pS7-YT-2kh" customClass="WebViewController" customModule="NonProfitOrganizationFinder" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="sB0-0q-U0v"/>
+                        <viewControllerLayoutGuide type="bottom" id="3qy-tx-quO"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="xbe-mg-7Tn">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Fgm-Cr-JKp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5020" y="-671"/>
         </scene>
         <!--Favorites-->
         <scene sceneID="Ry8-Bx-Zv0">
             <objects>
                 <navigationController id="SoU-jC-ilw" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Favorites" image="star.png" id="1Qr-Tw-zO1"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6UB-V5-WrS">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="6UB-V5-WrS">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -207,6 +242,9 @@
                                 <rect key="frame" x="275" y="7" width="84" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="settings.png"/>
+                                <connections>
+                                    <segue destination="gct-G1-aHo" kind="push" id="0XU-83-YRE"/>
+                                </connections>
                             </button>
                         </barButtonItem>
                     </navigationItem>
@@ -266,7 +304,7 @@
         <!--List-->
         <scene sceneID="Vbi-xB-daG">
             <objects>
-                <viewController id="CE3-32-mFo" userLabel="List" customClass="MapController" customModule="NonProfitOrganizationFinder" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ListVC" id="CE3-32-mFo" userLabel="List" customClass="ListViewController" customModule="NonProfitOrganizationFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="3HZ-Jy-d8v"/>
                         <viewControllerLayoutGuide type="bottom" id="0iy-mU-5eS"/>
@@ -276,18 +314,18 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qPg-tc-Jr9">
-                                <rect key="frame" x="0.0" y="88" width="375" height="579"/>
+                                <rect key="frame" x="0.0" y="109" width="375" height="558"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="oa8-Of-BIG">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="myCell" id="oa8-Of-BIG" userLabel="myCell" customClass="MyTableViewCell" customModule="NonProfitOrganizationFinder" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oa8-Of-BIG" id="W5e-5E-FuQ">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4i8-f3-NM2">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" restorationIdentifier="myCell" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4i8-f3-NM2">
                                                     <rect key="frame" x="35" y="0.0" width="340" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -296,6 +334,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="label" destination="4i8-f3-NM2" id="0BG-g9-Z4Y"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -303,23 +344,34 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             </navigationBar>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9eq-ku-CHN">
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="9eq-ku-CHN">
                                 <rect key="frame" x="16" y="27" width="51" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </switch>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AIS-De-t7g">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AIS-De-t7g" userLabel="Settings Button">
                                 <rect key="frame" x="276" y="28" width="83" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="settings.png"/>
+                                <connections>
+                                    <segue destination="gct-G1-aHo" kind="push" id="Izy-Hd-sh3"/>
+                                </connections>
                             </button>
+                            <searchBar contentMode="redraw" fixedFrame="YES" placeholder="Search by City" translatesAutoresizingMaskIntoConstraints="NO" id="gA3-h4-3Rl">
+                                <rect key="frame" x="0.0" y="65" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="List View" id="tiR-ne-LNH"/>
+                    <connections>
+                        <outlet property="tableView" destination="qPg-tc-Jr9" id="L3D-nV-fgf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ypb-Vg-98C" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2908" y="-530.28485757121439"/>
+            <point key="canvasLocation" x="2905" y="-539"/>
         </scene>
     </scenes>
     <resources>
@@ -327,4 +379,7 @@
         <image name="settings.png" width="30" height="30"/>
         <image name="star.png" width="30" height="30"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="Izy-Hd-sh3"/>
+    </inferredMetricsTieBreakers>
 </document>
