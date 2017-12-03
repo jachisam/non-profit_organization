@@ -16,9 +16,8 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
     
     
     //DATA
-    var theData: [String] = []
+    var theData: [NonProfit] = []
     let storage = UserDefaults.standard.array(forKey: "nonprofits") as! [String] //storage ...
-    var faves: [String] = []    // favourite movies
     
     // https://stackoverflow.com/questions/25392124/swift-func-viewwillappear
     // needed in order to refresh favourites list during same app launch
@@ -41,28 +40,24 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
     
     // fetch data for the favourites
     private func fetchFavourites() {
-        
-        faves = storage.object(forKey: "nonprofits") as? [String] ?? [String]()
+    
         theData = []
         
-        for item in faves {
+        for item in storage {
+            //change to our website and pull by name
             let apiKey = "43837a3ce3a42866abb9ead7c3de29fa"
             let json = getJSON("https://api.themoviedb.org/3/movie/"+item+"?api_key="+apiKey)
-            let url = json["poster_path"].stringValue
-            let title = json["original_title"].stringValue
-            let rating = json["vote_average"].doubleValue
             
-            theData.append(NonProfit(title: title, movieID: item, url: url, rating: rating))
         }
     }
     
     // (todd sproull)
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let movie:NonProfit = theData[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath) as! MyTableViewCell
-        //cell.detailTextLabel?.text = theData[indexPath.row].movieID
-        cell.label?.text = movie.title
+        let nonprofFav:NonProfit = theData[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "myCellFav", for: indexPath) as! MyTableViewCell
+      
+        cell.label?.text = nonprofFav.name
         return cell
     }
     
@@ -78,8 +73,8 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
         let movie:NonProfit = theData[indexPath.row]
         let detailedVC = storyboard!.instantiateViewController(withIdentifier: "OrganizationPage") as! DetailedViewController //DetailedViewController()
         
-        detailedVC.title = movie.title
-        detailedVC.name = movie.movieID
+        //detailedVC.title = nonprofFav.name
+        //detailedVC.name = movie.movieID
         navigationController?.pushViewController(detailedVC, animated: true)
         
     }
@@ -87,10 +82,10 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
     // https://code.tutsplus.com/tutorials/working-with-icloud-key-value-storage--pre-37542
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == UITableViewCellEditingStyle.delete) {
-            var array = storage.object(forKey: "nonprofits") as? [String] ?? [String]()
-            array.remove(at: indexPath.row)
+           // var array = storage.array(forKey: "nonprofits") as? [String]
+      //      array.remove(at: indexPath.row)
             storage.set(array, forKey: "nonprofits")
-            refreshFaves()
+       //     refreshFaves()
         }
     }
     
@@ -101,36 +96,78 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
         
     }
     
-    // getJSON from github
-    private func getJSON(_ url:String) -> JSON {
-        if let url = URL(string: url) {
-            if let data = try? Data(contentsOf: url) {
-                let json = try? JSON(data: data)
-                return json!
-            } else {
-                return JSON.null
-            }
-        } else {
-            return JSON.null
-        }
+    private func getJSON(_ url:String) {
+        let username = "80f27268088b460b9138a26c44e3266c"
+        let password = ""
+        let credentials = String(format: "%@:%@", username, password).data(using: String.Encoding.utf8)!
+        let base64LoginData = credentials.base64EncodedString()
         
-    }
-    
-    // used (todd sproull) then updated image cache to suuport dictionary use
-    private func cacheImages() {
-        for item in theData {
-            let url = URL(string: item.url)
-            let id = item.movieID
-            var image: UIImage? = nil
-            if (url != nil) {
-                let data = try? Data(contentsOf: url!)
-                if (data != nil){
-                    image = UIImage(data: data!)
-                    theImageCache.updateValue(image, forKey: id)
+        let url = URL(string: url)!
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Basic \(base64LoginData)", forHTTPHeaderField: "Authorization")
+        
+       // dispatchGroup.enter()
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let data = data {
+                if let jsonFavData = try? JSON(data: data) {
+                    for result in jsonFavData["hits"].arrayValue {
+                        let id = result["organization_id"].stringValue
+                        let detailUrl = "https://sandboxdata.guidestar.org/v1/detail/\(id).json"
+                        //print(id)
+                        self.getDetailJSON(detailUrl)
+                    }
+                    //self.dispatchGroup.leave()
+                }
+                else {
+                    print("No Search JSON Data")
                 }
             }
         }
+        task.resume()
     }
+    
+    private func getDetailJSON(_ url:String) {
+        let username = "a45b1421439743eb970b0f1bef3133e8"
+        let password = ""
+        let credentials = String(format: "%@:%@", username, password).data(using: String.Encoding.utf8)!
+        let base64LoginData = credentials.base64EncodedString()
+        
+        let url = URL(string: url)!
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Basic \(base64LoginData)", forHTTPHeaderField: "Authorization")
+        
+        //dispatchGroup.enter()
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let data = data {
+                if let jsonFavData = try? JSON(data: data) {
+                    let name = jsonFavData["organization_name"].stringValue
+                    let mission = jsonFavData["mission"].stringValue
+                    let affiliationCode = jsonFavData["affilitation_code"].stringValue
+                    let address = jsonFavData["address_line1"].stringValue
+                    let city = jsonFavData["city"].stringValue
+                    let state = jsonFavData["state"].stringValue
+                    let zip = jsonFavData["zip"].stringValue
+                    let telephone = jsonFavData["telephone"].stringValue
+                    let website = jsonFavData["website"].stringValue
+                    let id = jsonFavData["organization_id"].stringValue
+                    
+                    let nonprofit = NonProfit(name: name, mission: mission, affilitationCode: affiliationCode, address: address, city: city, state: state, zip: zip, telephone: telephone, websiteURL: website, id: id)
+                    
+                    //print(nonprofit.name)
+                    self.theData.append(nonprofit)
+                }
+                else {
+                    print("No Detail JSON Data")
+                }
+            }
+      //      self.dispatchGroup.leave()
+        }
+        task.resume()
+    }
+    
+    // used (todd sproull) then updated image cache to suuport dictionary use
     
     override func viewDidLoad() {
         super.viewDidLoad()
