@@ -18,7 +18,11 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
     @IBOutlet weak var settingsButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
     var regionRadius: CLLocationDistance = 50000
-
+    var nonprofits: [NonProfit] = [] //List of nonprofits
+    var nonprofits_name: [String] = [] //String nonprofits
+    let dispatchGroup = DispatchGroup() //create dispatch group where urlrequests are done together
+    var searchType = "city"
+    var searchValue = "san-francisco"
     let locationManager =  CLLocationManager()
     let newPin = MKPointAnnotation()
     
@@ -39,23 +43,23 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        print("view appeared")
         let theRadius = UserDefaults.standard.double(forKey: "currRadius")
         regionRadius = theRadius
         centerMapByLocation((locationManager.location)!, mapView: mapView)
+        retrieveData()
     }
     
 
     override func viewDidLoad() {
+        mapView.delegate = self
         super.viewDidLoad()
-
-        
         // User's location
         
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         UserDefaults.standard.set(regionRadius, forKey: "currRadius")
         centerMapByLocation((locationManager.location)!, mapView:mapView)
+        nonprofits.removeAll()
         
         if #available(iOS 8.0, *) {
             locationManager.requestAlwaysAuthorization()
@@ -108,12 +112,143 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
         
     }
     
+    func retrieveData() {
+        nonprofits.removeAll()
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.fetchNonProfitData()
+            DispatchQueue.main.async {
+                self.dispatchGroup.notify(queue: .main) {
+                    print(self.nonprofits)
+                    //finished()
+                    //Called when all url processing is complete. Do UI processing inside of it.
+                }
+            }
+        }
+    }
+    
+    func fetchNonProfitData() {
+        //If searchType & searchValue != null or not empty string, then set searchType and searchValue to searchType selected and query text entered
+//        let searchType = "city"
+//        let searchValue = "chicago"
+        
+        
+        getJSON("https://sandboxdata.guidestar.org/v1_1/search.json?q=\(searchType):\(searchValue)")
+    }
+    
+    // Remember to allow arbitrary loads in info.plist
+    private func getJSON(_ url:String) {
+        let username = "80f27268088b460b9138a26c44e3266c"
+        let password = ""
+        let credentials = String(format: "%@:%@", username, password).data(using: String.Encoding.utf8)!
+        let base64LoginData = credentials.base64EncodedString()
+        
+        let url = URL(string: url)!
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Basic \(base64LoginData)", forHTTPHeaderField: "Authorization")
+        
+        dispatchGroup.enter()
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let data = data {
+                if let jsonSearchData = try? JSON(data: data) {
+                    for result in jsonSearchData["hits"].arrayValue {
+                        let id = result["organization_id"].stringValue
+                        let detailUrl = "https://sandboxdata.guidestar.org/v1/detail/\(id).json"
+                        //print(id)
+                        self.getDetailJSON(detailUrl)
+                    }
+                    self.dispatchGroup.leave()
+                }
+                else {
+                    print("No Search JSON Data")
+                }
+            }
+        }
+        task.resume()
+    }
+    
+    private func getDetailJSON(_ url:String) {
+        let username = "a45b1421439743eb970b0f1bef3133e8"
+        let password = ""
+        let credentials = String(format: "%@:%@", username, password).data(using: String.Encoding.utf8)!
+        let base64LoginData = credentials.base64EncodedString()
+        
+        let url = URL(string: url)!
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Basic \(base64LoginData)", forHTTPHeaderField: "Authorization")
+        
+        dispatchGroup.enter()
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let data = data {
+                if let jsonSearchData = try? JSON(data: data) {
+                    let name = jsonSearchData["organization_name"].stringValue
+                    let mission = jsonSearchData["mission"].stringValue
+                    let affiliationCode = jsonSearchData["affilitation_code"].stringValue
+                    let address = jsonSearchData["address_line1"].stringValue
+                    let city = jsonSearchData["city"].stringValue
+                    let state = jsonSearchData["state"].stringValue
+                    let zip = jsonSearchData["zip"].stringValue
+                    let telephone = jsonSearchData["telephone"].stringValue
+                    let website = jsonSearchData["website"].stringValue
+                    let id = jsonSearchData["organization_id"].stringValue
+                    
+                    let nonprofit = NonProfit(name: name, mission: mission, affilitationCode: affiliationCode, address: address, city: city, state: state, zip: zip, telephone: telephone, websiteURL: website, id: id)
+                    
+                    //print(nonprofit.name)
+                    self.nonprofits.append(nonprofit)
+                    self.addPinByAddress(address: nonprofit.address, name: nonprofit.name)
+                }
+                else {
+                    print("No Detail JSON Data")
+                }
+            }
+            self.dispatchGroup.leave()
+        }
+        task.resume()
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        var view = mapView.dequeueReusableAnnotationView(withIdentifier: "AnnotationView Id")
+        if view == nil{
+            view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "AnnotationView Id")
+            view!.canShowCallout = true
+        } else {
+            view!.annotation = annotation
+        }
+        
+        view?.leftCalloutAccessoryView = nil
+        view?.rightCalloutAccessoryView = UIButton(type: UIButtonType.infoDark)
+        //swift 1.2
+        //view?.rightCalloutAccessoryView = UIButton.buttonWithType(UIButtonType.DetailDisclosure) as UIButton
+        
+        return view
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        print("button clicked")
+
+    }
+
+    func addPinByAddress(address: String, name: String) {
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(address, completionHandler: {(placemarks, error) -> Void in
+            if((error) != nil){
+                print("Error", error ?? "")
+            }
+            if let placemark = placemarks?.first {
+                let coordinates:CLLocationCoordinate2D = placemark.location!.coordinate
+                let newPin = MKPointAnnotation()
+                newPin.coordinate = coordinates
+                newPin.title = name
+                self.mapView.addAnnotation(newPin)
+            }
+        })
+    }
+    
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
-    
-    
-    
-    
 }

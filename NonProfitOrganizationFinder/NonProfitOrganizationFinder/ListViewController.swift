@@ -14,6 +14,7 @@ class MyTableViewCell: UITableViewCell {
 }
 class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     let myArray = ["Mary", "Bob", "Jane"]
     var nonprofits: [NonProfit] = [] //List of nonprofits
@@ -23,7 +24,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
-        retrieveData()
+        //retrieveData()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -42,6 +43,9 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             self.fetchNonProfitData()
             DispatchQueue.main.async {
                 self.dispatchGroup.notify(queue: .main) { //Called when all url processing is complete. Do UI processing inside of it.
+                    print("done")
+                    print(self.nonprofits)
+                    self.tableView.reloadData()
                 }
             }
         }
