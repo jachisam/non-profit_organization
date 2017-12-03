@@ -14,6 +14,7 @@ class MyTableViewCell: UITableViewCell {
 }
 class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     let myArray = ["Mary", "Bob", "Jane"]
     var nonprofits: [NonProfit] = [] //List of nonprofits

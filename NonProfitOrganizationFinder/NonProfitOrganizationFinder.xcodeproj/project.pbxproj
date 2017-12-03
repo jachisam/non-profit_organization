@@ -276,6 +276,7 @@
 				TargetAttributes = {
 					E3D39C451FB91F0E0050A89B = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = EF9BH7PCKT;
 						ProvisioningStyle = Automatic;
 					};
 					E3D39C591FB91F0E0050A89B = {
@@ -522,6 +523,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = EF9BH7PCKT;
 				INFOPLIST_FILE = NonProfitOrganizationFinder/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.NonProfitOrganizationFinder;
@@ -534,6 +536,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = EF9BH7PCKT;
 				INFOPLIST_FILE = NonProfitOrganizationFinder/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.NonProfitOrganizationFinder;
