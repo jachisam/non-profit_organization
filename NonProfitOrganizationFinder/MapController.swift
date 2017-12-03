@@ -51,9 +51,8 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
     
 
     override func viewDidLoad() {
+        mapView.delegate = self
         super.viewDidLoad()
-
-        
         // User's location
         
         locationManager.delegate = self
@@ -209,7 +208,28 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
         task.resume()
     }
     
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        var view = mapView.dequeueReusableAnnotationView(withIdentifier: "AnnotationView Id")
+        if view == nil{
+            view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "AnnotationView Id")
+            view!.canShowCallout = true
+        } else {
+            view!.annotation = annotation
+        }
+        
+        view?.leftCalloutAccessoryView = nil
+        view?.rightCalloutAccessoryView = UIButton(type: UIButtonType.infoDark)
+        //swift 1.2
+        //view?.rightCalloutAccessoryView = UIButton.buttonWithType(UIButtonType.DetailDisclosure) as UIButton
+        
+        return view
+    }
     
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        print("button clicked")
+
+    }
+
     func addPinByAddress(address: String, name: String) {
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(address, completionHandler: {(placemarks, error) -> Void in
@@ -226,12 +246,9 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
         })
     }
     
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
-    
-    
-    
-    
 }
