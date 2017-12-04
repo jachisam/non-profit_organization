@@ -19,6 +19,7 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
     @IBOutlet weak var mapView: MKMapView!
     var regionRadius: CLLocationDistance = 50000
     var nonprofits: [NonProfit] = [] //List of nonprofits
+    var nonProfitsDict = [String:NonProfit]() //Name:NonprofitObj
     var nonprofits_name: [String] = [] //String nonprofits
     let dispatchGroup = DispatchGroup() //create dispatch group where urlrequests are done together
     var searchType = "city"
@@ -118,7 +119,7 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
             self.fetchNonProfitData()
             DispatchQueue.main.async {
                 self.dispatchGroup.notify(queue: .main) {
-                    print(self.nonprofits)
+                    print(self.nonProfitsDict)
                     //finished()
                     //Called when all url processing is complete. Do UI processing inside of it.
                 }
@@ -184,14 +185,14 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
                 if let jsonSearchData = try? JSON(data: data) {
                     let name = jsonSearchData["organization_name"].stringValue
                     let mission = jsonSearchData["mission"].stringValue
-                    let affiliationCode = jsonSearchData["affilitation_code"].stringValue
-                    let address = jsonSearchData["address_line1"].stringValue
-                    let city = jsonSearchData["city"].stringValue
-                    let state = jsonSearchData["state"].stringValue
-                    let zip = jsonSearchData["zip"].stringValue
-                    let telephone = jsonSearchData["telephone"].stringValue
-                    let website = jsonSearchData["website"].stringValue
-                    let id = jsonSearchData["organization_id"].stringValue
+                    var affiliationCode = jsonSearchData["affilitation_code"].stringValue
+                    var address = jsonSearchData["address_line1"].stringValue
+                    var city = jsonSearchData["city"].stringValue
+                    var state = jsonSearchData["state"].stringValue
+                    var zip = jsonSearchData["zip"].stringValue
+                    var telephone = jsonSearchData["telephone"].stringValue
+                    var website = jsonSearchData["website"].stringValue
+                    var id = jsonSearchData["organization_id"].stringValue
                     
                     let nonprofit = NonProfit(name: name, mission: mission, affilitationCode: affiliationCode, address: address, city: city, state: state, zip: zip, telephone: telephone, websiteURL: website, id: id)
                     
@@ -199,6 +200,7 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
                     
                     //print(nonprofit.name)
                     self.nonprofits.append(nonprofit)
+                    self.nonProfitsDict[nonprofit.name] = nonprofit
                     self.addPinByAddress(address: nonprofit.address, name: nonprofit.name, index: index)
                 }
                 else {
@@ -228,17 +230,13 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        let detailedVC = DetailedViewController()
-        //let name = (view.annotation?.title!!)!
+        let name = view.annotation!.title
+        let nonprofit = nonProfitsDict[name!!]
         
-        
-        let index = Int((view.annotation?.subtitle!)!)
-        
-        let nonprofit = nonprofits[index!]
-        
-        detailedVC.nonprofit = nonprofit
-        
-        navigationController?.pushViewController(detailedVC, animated: true)
+        if let detailedVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "detail") as? DetailedViewController {
+            detailedVC.nonprofit = nonprofit
+            navigationController?.pushViewController(detailedVC, animated: true)
+        }
         
         print("button clicked")
 
