@@ -172,12 +172,9 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         print("You just picked this \(indexPath)")
         
         let nonprofit:NonProfit = nonprofits[indexPath.row]
-        let detailedVC = storyboard!.instantiateViewController(withIdentifier: "OrganizationPage") as! DetailedViewController
-//        detailedVC.title = nonprofit.name
-//        detailedVC.name.text = nonprofit.name 
-//        detailedVC.info.text = nonprofit.mission
-        detailedVC.nonprofit = nonprofit
-        navigationController?.pushViewController(detailedVC, animated: true)
+        let detailedVC = storyboard!.instantiateViewController(withIdentifier: "detail") as? DetailedViewController
+        detailedVC?.nonprofit = nonprofit
+        navigationController?.pushViewController(detailedVC!, animated: true)
         tableView.reloadData()
         print("pushed from list view")
     }

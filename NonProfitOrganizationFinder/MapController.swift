@@ -32,13 +32,11 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
     // Switch between map and list view --> default: map view
     @IBAction func changeMap(_ sender: Any) {
         if(theSwitch.isOn){
-            mapView.mapType = .standard    // this should be set to mapview w current location
-            // along with organizations within a defined radius default: 50
+            mapView.mapType = .standard  
         } else {
-            //mapView.mapType = .satellite     // this should switch to the list view where user can query by zip
-            // or name of the organization
             let listVC = self.storyboard?.instantiateViewController(withIdentifier: "ListVC") as? ListViewController
             self.navigationController?.pushViewController(listVC!, animated: true)
+            theSwitch.setOn(true, animated: true)
         }
         
     }
