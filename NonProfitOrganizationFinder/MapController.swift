@@ -18,7 +18,7 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
     @IBOutlet weak var settingsButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var searchBar: UISearchBar!
-    var regionRadius: CLLocationDistance = 50000
+    var regionRadius: CLLocationDistance = 5000
     var nonprofits: [NonProfit] = [] //List of nonprofits
     var nonProfitsDict = [String:NonProfit]() //Name:NonprofitObj
     var nonprofits_name: [String] = [] //String nonprofits
@@ -46,25 +46,27 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
         searchBar.text = ""
         let theRadius = UserDefaults.standard.double(forKey: "currRadius")
         regionRadius = theRadius
-        //centerMapByLocation((locationManager.location)!, mapView: mapView)
+        print(regionRadius)
+        self.viewDidLoad()
         retrieveData()
     }
+    
+    
     
 
     override func viewDidLoad() {
         mapView.delegate = self
         searchBar.delegate = self
 
-        super.viewDidLoad()
         // User's location
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(searchValue, completionHandler: {(placemarks, error) -> Void in
             if((error) != nil){
                 print("Error", error ?? "")
             }
-            if let placemark = placemarks?.first {
+           // if let placemark = placemarks?.first {
                 self.centerMapByLocation(self.locationManager.location!, mapView: self.mapView)
-            }
+           // }
         })
         if #available(iOS 8.0, *) {
             locationManager.requestAlwaysAuthorization()
@@ -93,8 +95,6 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
     
     // func that centers map on location
     func centerMapByLocation(_ location: CLLocation, mapView: MKMapView) {
-        print(regionRadius)
-        print("centering")
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius * 2, regionRadius * 2)
         mapView.setRegion(coordinateRegion, animated: true)
     }

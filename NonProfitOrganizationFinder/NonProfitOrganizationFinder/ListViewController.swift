@@ -21,7 +21,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var nonprofits_name: [String] = [] //String nonprofits
     let dispatchGroup = DispatchGroup() //create dispatch group where urlrequests are done together
     var refreshControl: UIRefreshControl!
-    var searchValue = "San Francisco"
+    var searchValue = "San-Francisco"
     var searchType = "city"
     
     override func viewDidLoad() {
@@ -34,7 +34,8 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl.addTarget(self, action: #selector(ListViewController.retrieveData), for: UIControlEvents.valueChanged)
         tableView.addSubview(refreshControl)
-        self.title = searchValue + " Non-Profits"
+        let text = searchValue.replacingOccurrences(of: "-", with: " ")
+        self.title = text + " Non-Profits"
         //retrieveData()
     }
     

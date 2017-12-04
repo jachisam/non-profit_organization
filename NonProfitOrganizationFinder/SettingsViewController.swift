@@ -23,13 +23,14 @@ class SettingsViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    @IBAction func radiusModified(_ sender: Any) {
+
+    @IBAction func radiusChanged(_ sender: Any) {
         //print("radius changed")
         radius = Double(newRadius.text!)!
+        newRadius.text! = ""
         //print(radius)
         UserDefaults.standard.set(radius, forKey: "currRadius")
     }
-
     /*
     // MARK: - Navigation
 

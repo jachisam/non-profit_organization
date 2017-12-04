@@ -296,10 +296,15 @@
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
-                                <connections>
-                                    <action selector="radiusModified:" destination="gct-G1-aHo" eventType="editingChanged" id="Kgf-Zj-hir"/>
-                                </connections>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UIk-qT-8BX">
+                                <rect key="frame" x="256" y="349" width="53" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Change"/>
+                                <connections>
+                                    <action selector="radiusChanged:" destination="gct-G1-aHo" eventType="touchUpInside" id="hyb-5h-JYU"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
