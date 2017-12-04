@@ -73,7 +73,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         let searchType = "city"
         //let search = self.searchBar.text!
-        let searchValue = "chicago" //search.replacingOccurrences(of: " ", with: "%20", options: NSString.CompareOptions.literal, range: nil)
+        let searchValue = "san-francisco" //search.replacingOccurrences(of: " ", with: "%20", options: NSString.CompareOptions.literal, range: nil)
 
         nonprofits = []
         getJSON("https://sandboxdata.guidestar.org/v1_1/search.json?q=\(searchType):\(searchValue)")
