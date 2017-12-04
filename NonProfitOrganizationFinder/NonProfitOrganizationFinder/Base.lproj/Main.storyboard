@@ -86,7 +86,7 @@
         <!--Detailed View Controller-->
         <scene sceneID="5Kw-5d-RRf">
             <objects>
-                <viewController storyboardIdentifier="OrganizationPage" id="ZcH-No-wJw" customClass="DetailedViewController" customModule="NonProfitOrganizationFinder" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="detail" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ZcH-No-wJw" customClass="DetailedViewController" customModule="NonProfitOrganizationFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="GUu-zi-Agx"/>
                         <viewControllerLayoutGuide type="bottom" id="f2I-Sk-viO"/>
