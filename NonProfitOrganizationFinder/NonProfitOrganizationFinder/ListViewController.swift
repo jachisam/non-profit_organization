@@ -14,12 +14,17 @@ class MyTableViewCell: UITableViewCell {
 }
 class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
-    let myArray = ["Mary", "Bob", "Jane"]
     var nonprofits: [NonProfit] = [] //List of nonprofits
     var nonprofits_name: [String] = [] //String nonprofits
     let dispatchGroup = DispatchGroup() //create dispatch group where urlrequests are done together
+<<<<<<< HEAD
+=======
+    var refreshControl: UIRefreshControl!
+
+>>>>>>> aa194093a916353fbf716e3f6346164e7359284f
     var searchValue = "san-francisco"
     var searchType = "city"
     
@@ -27,6 +32,12 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         super.viewDidLoad()
         searchBar.delegate = self
         setupTableView()
+        spinner.hidesWhenStopped = true
+        spinner.color = UIColor.blue
+        refreshControl = UIRefreshControl.init()
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(ListViewController.retrieveData), for: UIControlEvents.valueChanged)
+        tableView.addSubview(refreshControl)
         //retrieveData()
     }
     
@@ -41,13 +52,16 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
 
     func retrieveData() {
-        nonprofits.removeAll()
+        self.nonprofits.removeAll()
+        self.tableView.reloadData()     // this is a temp solution.. be wary of clicking more than 9
+        self.spinner.startAnimating()
         DispatchQueue.global(qos: .userInitiated).async {
             self.fetchNonProfitData()
             DispatchQueue.main.async {
                 self.dispatchGroup.notify(queue: .main) { //Called when all url processing is complete. Do UI processing inside of it.
                     print("done")
                     self.tableView.reloadData()
+                    self.spinner.stopAnimating()
                 }
             }
         }
@@ -163,11 +177,16 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     // Open information for each non profit
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("You just picked this \(indexPath)")
-        
-        let nonprofit:NonProfit = nonprofits[indexPath.row]
-        let detailedVC = storyboard!.instantiateViewController(withIdentifier: "detail") as? DetailedViewController
-        detailedVC?.nonprofit = nonprofit
-        navigationController?.pushViewController(detailedVC!, animated: true)
+        print("Index count: \(nonprofits.count)")
+        if !self.refreshControl.isRefreshing {
+            let nonprofit:NonProfit = nonprofits[indexPath.row]
+            let detailedVC = storyboard!.instantiateViewController(withIdentifier: "detail") as? DetailedViewController
+            detailedVC?.nonprofit = nonprofit
+            navigationController?.pushViewController(detailedVC!, animated: true)
+        }
+        else{
+            nonprofits.removeAll()
+        }
         tableView.reloadData()
         print("pushed from list view")
     }
@@ -181,6 +200,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         tableView.delegate = self
         
     }
+
 
 }
 

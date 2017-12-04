@@ -53,7 +53,11 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
     override func viewDidLoad() {
         mapView.delegate = self
         searchBar.delegate = self
+<<<<<<< HEAD
         //self.mapView.removeAnnotations(mapView.annotations)
+=======
+        self.mapView.removeAnnotations(mapView.annotations)
+>>>>>>> aa194093a916353fbf716e3f6346164e7359284f
         super.viewDidLoad()
         // User's location
         let geocoder = CLGeocoder()
@@ -84,6 +88,28 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
 //        longPress.minimumPressDuration = 1.5 // in seconds
 //        //add gesture recognition
 //        mapView.addGestureRecognizer(longPress)
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print("search")
+        let text = searchBar.text!.replacingOccurrences(of: " ", with: "-")
+        searchValue = text
+        // centerMapByLocation(location: , mapView: mapView)
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(searchBar.text!, completionHandler: {(placemarks, error) -> Void in
+            if((error) != nil){
+                //print("Error", error ?? "")
+            }
+            if let placemark = placemarks?.first {
+                
+                self.centerMapByLocation(placemark.location!, mapView: self.mapView)
+                //let coordinates:CLLocationCoordinate2D = placemark.location!.coordinate
+            }
+        })
+        
+        retrieveData()
+        
+       
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -147,7 +173,11 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
 //    }
     
     func retrieveData() {
+<<<<<<< HEAD
         //self.mapView.removeAnnotations(mapView.annotations)
+=======
+        self.mapView.removeAnnotations(mapView.annotations)
+>>>>>>> aa194093a916353fbf716e3f6346164e7359284f
         nonprofits.removeAll()
         nonProfitsDict.removeAll()
         DispatchQueue.global(qos: .userInitiated).async {
@@ -229,6 +259,11 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
                     self.nonprofits.append(nonprofit)
                     self.nonProfitsDict[nonprofit.name] = nonprofit
                     self.addPinByAddress(address: nonprofit.address, name: nonprofit.name)
+<<<<<<< HEAD
+=======
+                    print("address: ")
+                    print(nonprofit.address)
+>>>>>>> aa194093a916353fbf716e3f6346164e7359284f
                 }
                 else {
                     print("No Detail JSON Data")
@@ -270,8 +305,11 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
     }
 
     func addPinByAddress(address: String, name: String) {
+<<<<<<< HEAD
         let finalAddress = address + searchValue
         
+=======
+>>>>>>> aa194093a916353fbf716e3f6346164e7359284f
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(finalAddress, completionHandler: {(placemarks, error) -> Void in
             if((error) != nil){
