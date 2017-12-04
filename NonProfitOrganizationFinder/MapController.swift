@@ -24,7 +24,7 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
     var nonprofits_name: [String] = [] //String nonprofits
     let dispatchGroup = DispatchGroup() //create dispatch group where urlrequests are done together
     var searchType = "city"
-    var searchValue = "san-francisco"
+    var searchValue = "seattle"
     let locationManager =  CLLocationManager()
     let newPin = MKPointAnnotation()
     
@@ -42,7 +42,7 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         let theRadius = UserDefaults.standard.double(forKey: "currRadius")
         regionRadius = theRadius
         centerMapByLocation((locationManager.location)!, mapView: mapView)
@@ -53,28 +53,37 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
     override func viewDidLoad() {
         mapView.delegate = self
         searchBar.delegate = self
-        self.mapView.removeAnnotations(mapView.annotations)
+        //self.mapView.removeAnnotations(mapView.annotations)
         super.viewDidLoad()
         // User's location
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(searchValue, completionHandler: {(placemarks, error) -> Void in
+            if((error) != nil){
+                //print("Error", error ?? "")
+            }
+            if let placemark = placemarks?.first {
+                self.centerMapByLocation(placemark.location!, mapView: self.mapView)
+            }
+        })
         
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        UserDefaults.standard.set(regionRadius, forKey: "currRadius")
-        centerMapByLocation((locationManager.location)!, mapView:mapView)
-        nonprofits.removeAll()
+//        locationManager.delegate = self
+//        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+//        UserDefaults.standard.set(regionRadius, forKey: "currRadius")
+//        centerMapByLocation((locationManager.location)!, mapView:mapView)
+        //nonprofits.removeAll()
         
         if #available(iOS 8.0, *) {
             locationManager.requestAlwaysAuthorization()
         } else {
             // Fallback on earlier versions
         }
-        locationManager.startUpdatingLocation()
+        //locationManager.startUpdatingLocation()
         
         // add gesture recognizer
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(MapController.mapLongPress(_:))) // colon needs to pass through info
-        longPress.minimumPressDuration = 1.5 // in seconds
-        //add gesture recognition
-        mapView.addGestureRecognizer(longPress)
+//        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(MapController.mapLongPress(_:))) // colon needs to pass through info
+//        longPress.minimumPressDuration = 1.5 // in seconds
+//        //add gesture recognition
+//        mapView.addGestureRecognizer(longPress)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -108,38 +117,39 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
     }
     
     // func called when gesture recognizer detects a long press
-    func mapLongPress(_ recognizer: UIGestureRecognizer) {
-        
-        print("A long press has been detected.")
-        
-        let touchedAt = recognizer.location(in: self.mapView) // adds the location on the view it was pressed
-        let touchedAtCoordinate : CLLocationCoordinate2D = mapView.convert(touchedAt, toCoordinateFrom: self.mapView) // will get coordinates
-        
-        let newPin = MKPointAnnotation()
-        newPin.coordinate = touchedAtCoordinate
-        mapView.addAnnotation(newPin)
-    }
+//    func mapLongPress(_ recognizer: UIGestureRecognizer) {
+//        
+//        print("A long press has been detected.")
+//        
+//        let touchedAt = recognizer.location(in: self.mapView) // adds the location on the view it was pressed
+//        let touchedAtCoordinate : CLLocationCoordinate2D = mapView.convert(touchedAt, toCoordinateFrom: self.mapView) // will get coordinates
+//        
+//        let newPin = MKPointAnnotation()
+//        newPin.coordinate = touchedAtCoordinate
+//        mapView.addAnnotation(newPin)
+//    }
 
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        mapView.removeAnnotation(newPin)
-        
-        let location = locations.last! as CLLocation
-        
-        let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-        
-        //set region on the map
-        mapView.setRegion(region, animated: true)
-        
-        newPin.coordinate = location.coordinate
-        mapView.addAnnotation(newPin)
-        
-    }
+//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        //mapView.removeAnnotation(newPin)
+//        
+//        let location = locations.last! as CLLocation
+//        
+//        let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+//        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+//        
+//        //set region on the map
+//        mapView.setRegion(region, animated: true)
+//        
+//        newPin.coordinate = location.coordinate
+//        mapView.addAnnotation(newPin)
+//        
+//    }
     
     func retrieveData() {
-        self.mapView.removeAnnotations(mapView.annotations)
+        //self.mapView.removeAnnotations(mapView.annotations)
         nonprofits.removeAll()
+        nonProfitsDict.removeAll()
         DispatchQueue.global(qos: .userInitiated).async {
             self.fetchNonProfitData()
             DispatchQueue.main.async {
@@ -219,8 +229,6 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
                     self.nonprofits.append(nonprofit)
                     self.nonProfitsDict[nonprofit.name] = nonprofit
                     self.addPinByAddress(address: nonprofit.address, name: nonprofit.name)
-                    print("address: ")
-                    print(nonprofit.address)
                 }
                 else {
                     print("No Detail JSON Data")
@@ -240,7 +248,7 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
             view!.annotation = annotation
         }
         
-        view?.leftCalloutAccessoryView = nil
+        //view?.leftCalloutAccessoryView = nil
         view?.rightCalloutAccessoryView = UIButton(type: UIButtonType.infoDark)
         //swift 1.2
         //view?.rightCalloutAccessoryView = UIButton.buttonWithType(UIButtonType.DetailDisclosure) as UIButton
@@ -262,13 +270,16 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
     }
 
     func addPinByAddress(address: String, name: String) {
+        let finalAddress = address + searchValue
+        
         let geocoder = CLGeocoder()
-        geocoder.geocodeAddressString(address, completionHandler: {(placemarks, error) -> Void in
+        geocoder.geocodeAddressString(finalAddress, completionHandler: {(placemarks, error) -> Void in
             if((error) != nil){
                 print("Error", error ?? "")
             }
             if let placemark = placemarks?.first {
                 let coordinates:CLLocationCoordinate2D = placemark.location!.coordinate
+                print(placemark.location!)
                 let newPin = MKPointAnnotation()
                 newPin.coordinate = coordinates
                 newPin.title = name
