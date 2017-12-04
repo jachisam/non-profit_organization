@@ -20,11 +20,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var nonprofits: [NonProfit] = [] //List of nonprofits
     var nonprofits_name: [String] = [] //String nonprofits
     let dispatchGroup = DispatchGroup() //create dispatch group where urlrequests are done together
-<<<<<<< HEAD
-=======
     var refreshControl: UIRefreshControl!
-
->>>>>>> aa194093a916353fbf716e3f6346164e7359284f
     var searchValue = "san-francisco"
     var searchType = "city"
     
