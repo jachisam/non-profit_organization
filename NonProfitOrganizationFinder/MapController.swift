@@ -43,9 +43,10 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        searchBar.text = ""
         let theRadius = UserDefaults.standard.double(forKey: "currRadius")
         regionRadius = theRadius
-        centerMapByLocation((locationManager.location)!, mapView: mapView)
+        //centerMapByLocation((locationManager.location)!, mapView: mapView)
         retrieveData()
     }
     
@@ -53,8 +54,7 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
     override func viewDidLoad() {
         mapView.delegate = self
         searchBar.delegate = self
-        //self.mapView.removeAnnotations(mapView.annotations)
-        self.mapView.removeAnnotations(mapView.annotations)
+
         super.viewDidLoad()
         // User's location
         let geocoder = CLGeocoder()
@@ -68,10 +68,7 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
         })
         if #available(iOS 8.0, *) {
             locationManager.requestAlwaysAuthorization()
-        } else {
-            // Fallback on earlier versions
-        }
-
+        }        
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -103,7 +100,6 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
     }
     
     func retrieveData() {
-        self.mapView.removeAnnotations(mapView.annotations)
         self.mapView.removeAnnotations(mapView.annotations)
         nonprofits.removeAll()
         nonProfitsDict.removeAll()
