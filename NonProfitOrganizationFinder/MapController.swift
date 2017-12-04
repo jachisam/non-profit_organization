@@ -195,7 +195,7 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
                     
                     let nonprofit = NonProfit(name: name, mission: mission, affilitationCode: affiliationCode, address: address, city: city, state: state, zip: zip, telephone: telephone, websiteURL: website, id: id)
                     
-                    let index = String(self.nonprofits.count - 1)
+                    let index = String(self.nonprofits.count)
                     
                     //print(nonprofit.name)
                     self.nonprofits.append(nonprofit)
@@ -233,15 +233,10 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
         
         
         let index = Int((view.annotation?.subtitle!)!)
-        let theNonProfit = nonprofits[index!]
-
-        detailedVC.theName = theNonProfit.name
-        detailedVC.theZip = theNonProfit.zip
-        detailedVC.theMission = theNonProfit.mission
-        detailedVC.theCity = theNonProfit.city
-        detailedVC.theState = theNonProfit.state
-        detailedVC.theAffiliationCode = theNonProfit.affilitationCode
-        detailedVC.theAddress = theNonProfit.address
+        
+        let nonprofit = nonprofits[index!]
+        
+        detailedVC.nonprofit = nonprofit
         
         navigationController?.pushViewController(detailedVC, animated: true)
         
