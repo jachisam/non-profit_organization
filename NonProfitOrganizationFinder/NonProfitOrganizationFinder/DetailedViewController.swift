@@ -24,12 +24,6 @@ class DetailedViewController: UIViewController {
         self.logoView.image = #imageLiteral(resourceName: "logo.png")
         self.title = nonprofit.name
         info.text = "\(nonprofit.mission) \n\n Affiliation Code: \(nonprofit.affilitationCode) \n\n \(nonprofit.address) \n \(nonprofit.city), \(nonprofit.state) \(nonprofit.zip)"
-        
-
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        print(info)
     }
     
     override func didReceiveMemoryWarning() {

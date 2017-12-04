@@ -57,7 +57,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             self.fetchNonProfitData()
             DispatchQueue.main.async {
                 self.dispatchGroup.notify(queue: .main) { //Called when all url processing is complete. Do UI processing inside of it.
-                    print("done")
                     self.tableView.reloadData()
                     self.spinner.stopAnimating()
                 }
@@ -66,7 +65,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print("search")
         let text = searchBar.text!.replacingOccurrences(of: " ", with: "-")
         searchValue = text
         self.title = searchBar.text! + " Non-Profits"
@@ -76,7 +74,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     func fetchNonProfitData() {
         nonprofits = []
         getJSON("https://sandboxdata.guidestar.org/v1_1/search.json?q=\(searchType):\(searchValue)")
-        print(self.nonprofits)
     }
     
     // Remember to allow arbitrary loads in info.plist
@@ -150,9 +147,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         task.resume()
     }
     
-   
-
-    
     // SET UP FOR THE TABLE VIEW
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
@@ -181,7 +175,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             nonprofits.removeAll()
         }
         tableView.reloadData()
-        print("pushed from list view")
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

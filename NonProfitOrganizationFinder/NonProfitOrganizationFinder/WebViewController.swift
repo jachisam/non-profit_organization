@@ -17,7 +17,6 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         webView = WKWebView()
         webView.navigationDelegate = self
         view = webView
-        
     }
     
     override func viewDidLoad() {
@@ -27,13 +26,10 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         let myURLRequest = URLRequest(url: url)
         webView.load(myURLRequest)
         webView.allowsBackForwardNavigationGestures = true
-        
     }
     
     func openPage(action: UIAlertAction!) {
         let url = URL(string: "https://" + action.title!)!
-        
-        
         webView.load(URLRequest(url: url))
     }
     
@@ -45,16 +41,5 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

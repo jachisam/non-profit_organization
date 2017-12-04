@@ -25,20 +25,8 @@ class SettingsViewController: UIViewController {
     }
 
     @IBAction func radiusChanged(_ sender: Any) {
-        //print("radius changed")
         radius = Double(newRadius.text!)!
         newRadius.text! = ""
-        //print(radius)
         UserDefaults.standard.set(radius, forKey: "currRadius")
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

@@ -46,13 +46,9 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
         searchBar.text = ""
         let theRadius = UserDefaults.standard.double(forKey: "currRadius")
         regionRadius = theRadius
-        print(regionRadius)
         self.viewDidLoad()
         retrieveData()
     }
-    
-    
-    
 
     override func viewDidLoad() {
         mapView.delegate = self
@@ -64,9 +60,7 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
             if((error) != nil){
                 print("Error", error ?? "")
             }
-           // if let placemark = placemarks?.first {
-                self.centerMapByLocation(self.locationManager.location!, mapView: self.mapView)
-           // }
+            self.centerMapByLocation(self.locationManager.location!, mapView: self.mapView)
         })
         if #available(iOS 8.0, *) {
             locationManager.requestAlwaysAuthorization()
@@ -74,7 +68,6 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print("search")
         let text = searchBar.text!.replacingOccurrences(of: " ", with: "-")
         searchValue = text
         let geocoder = CLGeocoder()
@@ -107,7 +100,6 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
             self.fetchNonProfitData()
             DispatchQueue.main.async {
                 self.dispatchGroup.notify(queue: .main) {
-                    print(self.nonProfitsDict)
                     //Called when all url processing is complete. Do UI processing inside of it.
                 }
             }
@@ -176,7 +168,6 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
                     let id = jsonSearchData["organization_id"].stringValue
                     let nonprofit = NonProfit(name: name, mission: mission, affilitationCode: affiliationCode, address: address, city: city, state: state, zip: zip, telephone: telephone, websiteURL: website, id: id)
                     
-                    //print(nonprofit.name)
                     self.nonprofits.append(nonprofit)
                     self.nonProfitsDict[nonprofit.name] = nonprofit
                     self.addPinByAddress(address: nonprofit.address, name: nonprofit.name)
@@ -191,19 +182,15 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        var view = mapView.dequeueReusableAnnotationView(withIdentifier: "AnnotationView Id")
+        var view = mapView.dequeueReusableAnnotationView(withIdentifier: "id")
         if view == nil{
-            view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "AnnotationView Id")
+            view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "id")
             view!.canShowCallout = true
         } else {
             view!.annotation = annotation
         }
         
-        //view?.leftCalloutAccessoryView = nil
         view?.rightCalloutAccessoryView = UIButton(type: UIButtonType.infoDark)
-        //swift 1.2
-        //view?.rightCalloutAccessoryView = UIButton.buttonWithType(UIButtonType.DetailDisclosure) as UIButton
-        
         return view
     }
     
@@ -215,9 +202,6 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
             detailedVC.nonprofit = nonprofit
             navigationController?.pushViewController(detailedVC, animated: true)
         }
-        
-        print("button clicked")
-
     }
 
     func addPinByAddress(address: String, name: String) {
@@ -229,13 +213,11 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
             }
             if let placemark = placemarks?.first {
                 let coordinates:CLLocationCoordinate2D = placemark.location!.coordinate
-                print(placemark.location!)
                 let newPin = MKPointAnnotation()
                 newPin.coordinate = coordinates
                 newPin.title = name
                 
                 self.mapView.addAnnotation(newPin)
-                print("add pin")
             }
         })
     }
