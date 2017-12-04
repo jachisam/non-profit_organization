@@ -22,12 +22,15 @@ class DetailedViewController: UIViewController {
 
         //Do any additional setup after loading the view.
         self.title = nonprofit.name
-        //self.name.text = theName
+        info.text = "\(nonprofit.name) \n\n Mission: \(nonprofit.mission) \n\n Affiliation Code: \(nonprofit.affilitationCode) \n\n \(nonprofit.address) \n \(nonprofit.city), \(nonprofit.state) \(nonprofit.zip)"
         
-        //info.text = "\(nonprofit.name) \n\n Mission: \(nonprofit.mission) \n\n Affiliation Code: \(nonprofit.affilitationCode) \n\n \(nonprofit.address) \n \(nonprofit.city), \(nonprofit.state) \(nonprofit.zip)"
 
     }
-
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print(info)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
