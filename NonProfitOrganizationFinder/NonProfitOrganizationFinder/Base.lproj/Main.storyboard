@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G1036" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="UO0-3O-LTC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="UO0-3O-LTC">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -213,7 +213,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="IDf-3O-Tzp">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="myCellFav" id="IDf-3O-Tzp">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IDf-3O-Tzp" id="kRz-1U-xuW">
@@ -248,6 +248,9 @@
                             </button>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="nqL-WA-xNU" id="SeF-uZ-bre"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xuW-27-Z2r" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -366,7 +369,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="List View" id="tiR-ne-LNH"/>
                     <connections>
-                        <outlet property="searchBar" destination="gA3-h4-3Rl" id="A42-Iy-TiG"/>
+                        <outlet property="searchBar" destination="gA3-h4-3Rl" id="tIz-W3-TWm"/>
                         <outlet property="tableView" destination="qPg-tc-Jr9" id="L3D-nV-fgf"/>
                     </connections>
                 </viewController>
@@ -381,6 +384,6 @@
         <image name="star.png" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Izy-Hd-sh3"/>
+        <segue reference="0XU-83-YRE"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -12,8 +12,9 @@ import UIKit
 class MyTableViewCell: UITableViewCell {
     @IBOutlet weak var label: UILabel!
 }
-class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     let myArray = ["Mary", "Bob", "Jane"]
     var nonprofits: [NonProfit] = [] //List of nonprofits
@@ -22,6 +23,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchBar.delegate = self
         setupTableView()
         //retrieveData()
     }
@@ -50,8 +52,28 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
     
+    // search bar will accept user string input
+//    func searchBar(str: String){
+//        nonprofits = []
+//        self.tableView.reloadData()
+//        
+//        if (textDidChange != ""){
+//            DispatchQueue.global(qos: .userInitiated).async {
+//                self.tableView.reloadData()
+//                self.fetchNonProfitData(str: textDidChange)
+//                
+//                DispatchQueue.main.async {
+//                    self.collectionView.reloadData()
+//                    self.spinner.stopAnimating()
+//                }
+//                
+//            }
+//        }
+//    }
+    
     func fetchNonProfitData() {
         //If searchType & searchValue != null or not empty string, then set searchType and searchValue to searchType selected and query text entered
+        
         let searchType = "city"
         let searchValue = "chicago"
 
@@ -88,7 +110,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 else {
                     print("No Search JSON Data")
                 }
-                //print(self.nonprofits)
             }
         }
         task.resume()
@@ -121,9 +142,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
                     
                     let nonprofit = NonProfit(name: name, mission: mission, affilitationCode: affiliationCode, address: address, city: city, state: state, zip: zip, telephone: telephone, websiteURL: website, id: id)
                     
-                    //print(nonprofit.name)
                     self.nonprofits.append(nonprofit)
-                   // print( "\(self.nonprofits_s.count) = THIS IS THE COUNT")
                 }
                 else {
                     print("No Detail JSON Data")
@@ -138,23 +157,8 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     
     // SET UP FOR THE TABLE VIEW
-
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        print("You just unpicked this \(indexPath)")
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       print("You just picked this \(indexPath)")
-        
-    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let myCell = tableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath) as! MyTableViewCell
-//       
-//        myCell.textLabel?.text = myArray[indexPath.row]
-//        print(myArray[indexPath.row])
-//        return myCell
 
         let nonprofit:NonProfit = nonprofits[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath) as! MyTableViewCell
@@ -162,6 +166,23 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
        // print(nonprofit.name)
         return cell
 
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        print("You just unpicked this \(indexPath)")
+    }
+    
+    // Open information for movie
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        print("You just picked this \(indexPath)")
+        
+        let nonprofit:NonProfit = nonprofits[indexPath.row]
+        let detailedVC = storyboard!.instantiateViewController(withIdentifier: "OrganizationPage") as! DetailedViewController
+        detailedVC.title = nonprofit.name
+        detailedVC.name.text = nonprofit.name //fatal error: unexpectedly found nil while unwrapping an Optional value --> on this line
+        detailedVC.info.text = nonprofit.mission
+        navigationController?.pushViewController(detailedVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
