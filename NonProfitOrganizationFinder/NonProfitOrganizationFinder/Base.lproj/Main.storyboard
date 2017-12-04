@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="UO0-3O-LTC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G1036" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="UO0-3O-LTC">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -75,6 +75,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="wFS-hx-HXx" id="zBd-WJ-i6m"/>
+                        <outlet property="searchBar" destination="BF0-T1-waE" id="0vQ-Xj-Ofs"/>
                         <outlet property="settingsButton" destination="1Ek-m3-HcO" id="7B8-Ut-PjR"/>
                         <outlet property="theSwitch" destination="cjw-cW-Xgj" id="QQ6-u5-kPT"/>
                     </connections>
@@ -95,7 +96,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name of Organization" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LdG-T1-8Kg">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name of Organization" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LdG-T1-8Kg">
                                 <rect key="frame" x="16" y="57" width="343" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
@@ -127,7 +128,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Donate"/>
                                 <connections>
-                                    <segue destination="pS7-YT-2kh" kind="show" identifier="pushWeb" id="fG7-65-n7b"/>
+                                    <action selector="pushDonate:" destination="ZcH-No-wJw" eventType="touchUpInside" id="3Nk-UI-uHP"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -145,7 +146,7 @@
         <!--Web View Controller-->
         <scene sceneID="4cD-Jy-8Df">
             <objects>
-                <viewController id="pS7-YT-2kh" customClass="WebViewController" customModule="NonProfitOrganizationFinder" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="web" useStoryboardIdentifierAsRestorationIdentifier="YES" id="pS7-YT-2kh" customClass="WebViewController" customModule="NonProfitOrganizationFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="sB0-0q-U0v"/>
                         <viewControllerLayoutGuide type="bottom" id="3qy-tx-quO"/>
@@ -381,6 +382,6 @@
         <image name="star.png" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Izy-Hd-sh3"/>
+        <segue reference="Bot-gg-vGq"/>
     </inferredMetricsTieBreakers>
 </document>

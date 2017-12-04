@@ -11,12 +11,13 @@ import UIKit
 import MapKit
 //import CoreLocation
 
-class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
+class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, CLLocationManagerDelegate {
     
     //OUTLETS
     @IBOutlet weak var theSwitch: UISwitch!
     @IBOutlet weak var settingsButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var searchBar: UISearchBar!
     var regionRadius: CLLocationDistance = 50000
     var nonprofits: [NonProfit] = [] //List of nonprofits
     var nonProfitsDict = [String:NonProfit]() //Name:NonprofitObj
@@ -51,6 +52,8 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
 
     override func viewDidLoad() {
         mapView.delegate = self
+        searchBar.delegate = self
+        self.mapView.removeAnnotations(mapView.annotations)
         super.viewDidLoad()
         // User's location
         
@@ -74,9 +77,32 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
         mapView.addGestureRecognizer(longPress)
     }
     
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print("search")
+        let text = searchBar.text!.replacingOccurrences(of: " ", with: "-")
+        searchValue = text
+        // centerMapByLocation(location: , mapView: mapView)
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(searchBar.text!, completionHandler: {(placemarks, error) -> Void in
+            if((error) != nil){
+                //print("Error", error ?? "")
+            }
+            if let placemark = placemarks?.first {
+                
+                self.centerMapByLocation(placemark.location!, mapView: self.mapView)
+                //let coordinates:CLLocationCoordinate2D = placemark.location!.coordinate
+            }
+        })
+        
+        retrieveData()
+        
+       
+    }
+    
     // func that centers map on location
     func centerMapByLocation(_ location: CLLocation, mapView: MKMapView) {
         print(regionRadius)
+        print("centering")
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius * 2, regionRadius * 2)
         mapView.setRegion(coordinateRegion, animated: true)
     }
@@ -112,13 +138,13 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
     }
     
     func retrieveData() {
+        self.mapView.removeAnnotations(mapView.annotations)
         nonprofits.removeAll()
         DispatchQueue.global(qos: .userInitiated).async {
             self.fetchNonProfitData()
             DispatchQueue.main.async {
                 self.dispatchGroup.notify(queue: .main) {
                     print(self.nonProfitsDict)
-                    //finished()
                     //Called when all url processing is complete. Do UI processing inside of it.
                 }
             }
@@ -126,11 +152,6 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
     }
     
     func fetchNonProfitData() {
-        //If searchType & searchValue != null or not empty string, then set searchType and searchValue to searchType selected and query text entered
-//        let searchType = "city"
-//        let searchValue = "chicago"
-        
-        
         getJSON("https://sandboxdata.guidestar.org/v1_1/search.json?q=\(searchType):\(searchValue)")
     }
     
@@ -183,23 +204,23 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
                 if let jsonSearchData = try? JSON(data: data) {
                     let name = jsonSearchData["organization_name"].stringValue
                     let mission = jsonSearchData["mission"].stringValue
-                    var affiliationCode = jsonSearchData["affilitation_code"].stringValue
-                    var address = jsonSearchData["address_line1"].stringValue
-                    var city = jsonSearchData["city"].stringValue
-                    var state = jsonSearchData["state"].stringValue
-                    var zip = jsonSearchData["zip"].stringValue
-                    var telephone = jsonSearchData["telephone"].stringValue
-                    var website = jsonSearchData["website"].stringValue
-                    var id = jsonSearchData["organization_id"].stringValue
-                    
+                    let affiliationCode = jsonSearchData["affilitation_code"].stringValue
+                    let address = jsonSearchData["address_line1"].stringValue
+                    let city = jsonSearchData["city"].stringValue
+                    let state = jsonSearchData["state"].stringValue
+                    let zip = jsonSearchData["zip"].stringValue
+                    let telephone = jsonSearchData["telephone"].stringValue
+                    let website = jsonSearchData["website"].stringValue
+                    let id = jsonSearchData["organization_id"].stringValue
                     let nonprofit = NonProfit(name: name, mission: mission, affilitationCode: affiliationCode, address: address, city: city, state: state, zip: zip, telephone: telephone, websiteURL: website, id: id)
                     
-                    let index = String(self.nonprofits.count)
                     
                     //print(nonprofit.name)
                     self.nonprofits.append(nonprofit)
                     self.nonProfitsDict[nonprofit.name] = nonprofit
-                    self.addPinByAddress(address: nonprofit.address, name: nonprofit.name, index: index)
+                    self.addPinByAddress(address: nonprofit.address, name: nonprofit.name)
+                    print("address: ")
+                    print(nonprofit.address)
                 }
                 else {
                     print("No Detail JSON Data")
@@ -240,7 +261,7 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
 
     }
 
-    func addPinByAddress(address: String, name: String, index: String) {
+    func addPinByAddress(address: String, name: String) {
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(address, completionHandler: {(placemarks, error) -> Void in
             if((error) != nil){
@@ -251,10 +272,9 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
                 let newPin = MKPointAnnotation()
                 newPin.coordinate = coordinates
                 newPin.title = name
-                newPin.subtitle = index
                 
-                newPin.accessibilityHint = index
                 self.mapView.addAnnotation(newPin)
+                print("add pin")
             }
         })
     }

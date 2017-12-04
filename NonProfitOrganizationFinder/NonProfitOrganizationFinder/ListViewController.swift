@@ -20,6 +20,8 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var nonprofits: [NonProfit] = [] //List of nonprofits
     var nonprofits_name: [String] = [] //String nonprofits
     let dispatchGroup = DispatchGroup() //create dispatch group where urlrequests are done together
+    var searchValue = "san-francisco"
+    var searchType = "city"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,29 +53,19 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
     
-//    func searchBar(_ searchBar: UISearchBar) {
-//        nonprofits = []
-//        self.tableView.reloadData()
-//        
-//        // pull data from API
-//        if (self.searchBar.text != ""){
-//            DispatchQueue.global(qos: .userInitiated).async {
-//                self.tableView.reloadData()
-//                self.fetchNonProfitData()
-//                
-//                DispatchQueue.main.async {
-//                    self.tableView.reloadData()
-//                }
-//            }
-//        }
-//    }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print("search")
+        let text = searchBar.text!.replacingOccurrences(of: " ", with: "-")
+        searchValue = text
+        retrieveData()
+    }
     
     func fetchNonProfitData() {
         //If searchType & searchValue != null or not empty string, then set searchType and searchValue to searchType selected and query text entered
         
-        let searchType = "city"
+        
         //let search = self.searchBar.text!
-        let searchValue = "chicago" //search.replacingOccurrences(of: " ", with: "%20", options: NSString.CompareOptions.literal, range: nil)
+        //search.replacingOccurrences(of: " ", with: "%20", options: NSString.CompareOptions.literal, range: nil)
 
         nonprofits = []
         getJSON("https://sandboxdata.guidestar.org/v1_1/search.json?q=\(searchType):\(searchValue)")
@@ -151,6 +143,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         task.resume()
     }
     
+   
 
     
     // SET UP FOR THE TABLE VIEW
