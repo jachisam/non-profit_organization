@@ -21,7 +21,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var nonprofits_name: [String] = [] //String nonprofits
     let dispatchGroup = DispatchGroup() //create dispatch group where urlrequests are done together
     var refreshControl: UIRefreshControl!
-    var searchValue = "Seattle"
+    var searchValue = "San Francisco"
     var searchType = "city"
     
     override func viewDidLoad() {
@@ -73,12 +73,6 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func fetchNonProfitData() {
-        //If searchType & searchValue != null or not empty string, then set searchType and searchValue to searchType selected and query text entered
-        
-        
-        //let search = self.searchBar.text!
-        //search.replacingOccurrences(of: " ", with: "%20", options: NSString.CompareOptions.literal, range: nil)
-
         nonprofits = []
         getJSON("https://sandboxdata.guidestar.org/v1_1/search.json?q=\(searchType):\(searchValue)")
         print(self.nonprofits)

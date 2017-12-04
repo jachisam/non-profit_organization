@@ -24,7 +24,7 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
     var nonprofits_name: [String] = [] //String nonprofits
     let dispatchGroup = DispatchGroup() //create dispatch group where urlrequests are done together
     var searchType = "city"
-    var searchValue = "Seattle"
+    var searchValue = "san-francisco"
     let locationManager =  CLLocationManager()
     let newPin = MKPointAnnotation()
     
@@ -63,7 +63,7 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
                 print("Error", error ?? "")
             }
             if let placemark = placemarks?.first {
-                self.centerMapByLocation(placemark.location!, mapView: self.mapView)
+                self.centerMapByLocation(self.locationManager.location!, mapView: self.mapView)
             }
         })
         if #available(iOS 8.0, *) {
@@ -137,7 +137,6 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
                     for result in jsonSearchData["hits"].arrayValue {
                         let id = result["organization_id"].stringValue
                         let detailUrl = "https://sandboxdata.guidestar.org/v1/detail/\(id).json"
-                        //print(id)
                         self.getDetailJSON(detailUrl)
                     }
                     self.dispatchGroup.leave()
