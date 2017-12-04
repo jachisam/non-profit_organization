@@ -12,7 +12,7 @@ import UIKit
 class MyTableViewCell: UITableViewCell {
     @IBOutlet weak var label: UILabel!
 }
-class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
@@ -23,6 +23,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchBar.delegate = self
         setupTableView()
         //retrieveData()
     }
@@ -51,8 +52,28 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
     
+    // search bar will accept user string input
+//    func searchBar(str: String){
+//        nonprofits = []
+//        self.tableView.reloadData()
+//        
+//        if (textDidChange != ""){
+//            DispatchQueue.global(qos: .userInitiated).async {
+//                self.tableView.reloadData()
+//                self.fetchNonProfitData(str: textDidChange)
+//                
+//                DispatchQueue.main.async {
+//                    self.collectionView.reloadData()
+//                    self.spinner.stopAnimating()
+//                }
+//                
+//            }
+//        }
+//    }
+    
     func fetchNonProfitData() {
         //If searchType & searchValue != null or not empty string, then set searchType and searchValue to searchType selected and query text entered
+        
         let searchType = "city"
         let searchValue = "chicago"
 

@@ -9,11 +9,12 @@
 import Foundation
 import UIKit
 
-class FavoritesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class FavoritesViewController: UIViewController{
+//class FavoritesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
-    
+    /*
     
     //DATA
     var theData: [NonProfit] = []
@@ -84,7 +85,7 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
         if (editingStyle == UITableViewCellEditingStyle.delete) {
            // var array = storage.array(forKey: "nonprofits") as? [String]
       //      array.remove(at: indexPath.row)
-            storage.set(array, forKey: "nonprofits")
+       //     storage.set(array, forKey: "nonprofits")
        //     refreshFaves()
         }
     }
@@ -183,6 +184,7 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
         super.init(coder: aDecoder)
         
     }
+ */
 
 }
 
