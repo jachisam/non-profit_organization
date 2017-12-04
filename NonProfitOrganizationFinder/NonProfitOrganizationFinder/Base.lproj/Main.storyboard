@@ -97,13 +97,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fHE-eZ-XcH">
-                                <rect key="frame" x="51" y="558" width="94" height="45"/>
-                                <state key="normal" title="Favorite"/>
-                                <connections>
-                                    <action selector="saveToFavorites:" destination="ZcH-No-wJw" eventType="touchUpInside" id="F0Q-OI-XS3"/>
-                                </connections>
-                            </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="tcW-Xk-gDD">
                                 <rect key="frame" x="51" y="220" width="273" height="330"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -111,8 +104,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i83-0a-QRM">
-                                <rect key="frame" x="212" y="559" width="90" height="43"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i83-0a-QRM">
+                                <rect key="frame" x="230" y="591" width="50" height="30"/>
                                 <state key="normal" title="Donate"/>
                                 <connections>
                                     <action selector="pushDonate:" destination="ZcH-No-wJw" eventType="touchUpInside" id="3Nk-UI-uHP"/>
@@ -121,23 +114,30 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HjV-cc-Dc1">
                                 <rect key="frame" x="94" y="28" width="186" height="184"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fHE-eZ-XcH">
+                                <rect key="frame" x="94" y="591" width="55" height="30"/>
+                                <state key="normal" title="Favorite"/>
+                                <connections>
+                                    <action selector="saveToFavorites:" destination="ZcH-No-wJw" eventType="touchUpInside" id="F0Q-OI-XS3"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="fHE-eZ-XcH" firstAttribute="leading" secondItem="07G-JS-atl" secondAttribute="leadingMargin" constant="78" id="4go-cH-2cZ"/>
                             <constraint firstItem="f2I-Sk-viO" firstAttribute="top" secondItem="tcW-Xk-gDD" secondAttribute="bottom" constant="117" id="5uc-hc-Unv"/>
                             <constraint firstItem="tcW-Xk-gDD" firstAttribute="leading" secondItem="07G-JS-atl" secondAttribute="leadingMargin" constant="35" id="Bmr-Dm-yoo"/>
                             <constraint firstItem="HjV-cc-Dc1" firstAttribute="top" secondItem="GUu-zi-Agx" secondAttribute="bottom" constant="8" id="DYd-y5-wWk"/>
                             <constraint firstAttribute="trailingMargin" secondItem="tcW-Xk-gDD" secondAttribute="trailing" constant="35" id="E1w-iW-t9H"/>
-                            <constraint firstItem="i83-0a-QRM" firstAttribute="leading" secondItem="fHE-eZ-XcH" secondAttribute="trailing" constant="89" id="Qp4-bD-KDu"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="i83-0a-QRM" secondAttribute="trailing" constant="79" id="Piz-MX-d4s"/>
                             <constraint firstItem="f2I-Sk-viO" firstAttribute="top" secondItem="HjV-cc-Dc1" secondAttribute="bottom" constant="455" id="Sje-cQ-jM8"/>
-                            <constraint firstItem="f2I-Sk-viO" firstAttribute="top" secondItem="fHE-eZ-XcH" secondAttribute="bottom" constant="64" id="eUZ-Ie-xxu"/>
-                            <constraint firstItem="i83-0a-QRM" firstAttribute="top" secondItem="GUu-zi-Agx" secondAttribute="bottom" constant="539" id="fKs-K8-7vZ"/>
+                            <constraint firstItem="f2I-Sk-viO" firstAttribute="top" secondItem="fHE-eZ-XcH" secondAttribute="bottom" constant="46" id="USh-f3-I2Y"/>
+                            <constraint firstItem="i83-0a-QRM" firstAttribute="leading" secondItem="fHE-eZ-XcH" secondAttribute="trailing" constant="81" id="cFJ-L3-HPb"/>
                             <constraint firstItem="tcW-Xk-gDD" firstAttribute="top" secondItem="GUu-zi-Agx" secondAttribute="bottom" constant="200" id="faR-q4-QNy"/>
-                            <constraint firstItem="fHE-eZ-XcH" firstAttribute="leading" secondItem="07G-JS-atl" secondAttribute="leadingMargin" constant="35" id="g6V-Xc-4MJ"/>
+                            <constraint firstItem="f2I-Sk-viO" firstAttribute="top" secondItem="i83-0a-QRM" secondAttribute="bottom" constant="46" id="gCk-Uh-3Z8"/>
                             <constraint firstAttribute="trailingMargin" secondItem="HjV-cc-Dc1" secondAttribute="trailing" constant="79" id="ifD-ia-tFg"/>
-                            <constraint firstItem="f2I-Sk-viO" firstAttribute="top" secondItem="i83-0a-QRM" secondAttribute="bottom" constant="65" id="imE-1Z-B69"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="i83-0a-QRM" secondAttribute="trailing" constant="35" id="jWu-44-nsc"/>
-                            <constraint firstItem="fHE-eZ-XcH" firstAttribute="top" secondItem="GUu-zi-Agx" secondAttribute="bottom" constant="538" id="oVC-Wy-GPc"/>
+                            <constraint firstItem="i83-0a-QRM" firstAttribute="top" secondItem="tcW-Xk-gDD" secondAttribute="bottom" constant="41" id="lFw-Dh-gF5"/>
+                            <constraint firstItem="fHE-eZ-XcH" firstAttribute="top" secondItem="tcW-Xk-gDD" secondAttribute="bottom" constant="41" id="o2R-Wt-Hur"/>
                             <constraint firstItem="HjV-cc-Dc1" firstAttribute="leading" secondItem="07G-JS-atl" secondAttribute="leadingMargin" constant="78" id="xwO-ki-Jnb"/>
                         </constraints>
                     </view>
