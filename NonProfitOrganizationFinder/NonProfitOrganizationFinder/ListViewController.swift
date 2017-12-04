@@ -27,12 +27,12 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         setupTableView()
         //retrieveData()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         retrieveData()
     }
 
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -45,28 +45,25 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
             DispatchQueue.main.async {
                 self.dispatchGroup.notify(queue: .main) { //Called when all url processing is complete. Do UI processing inside of it.
                     print("done")
-                    print(self.nonprofits)
                     self.tableView.reloadData()
                 }
             }
         }
     }
     
-    // search bar will accept user string input
-//    func searchBar(str: String){
+//    func searchBar(_ searchBar: UISearchBar) {
 //        nonprofits = []
 //        self.tableView.reloadData()
 //        
-//        if (textDidChange != ""){
+//        // pull data from API
+//        if (self.searchBar.text != ""){
 //            DispatchQueue.global(qos: .userInitiated).async {
 //                self.tableView.reloadData()
-//                self.fetchNonProfitData(str: textDidChange)
+//                self.fetchNonProfitData()
 //                
 //                DispatchQueue.main.async {
-//                    self.collectionView.reloadData()
-//                    self.spinner.stopAnimating()
+//                    self.tableView.reloadData()
 //                }
-//                
 //            }
 //        }
 //    }
@@ -75,12 +72,14 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         //If searchType & searchValue != null or not empty string, then set searchType and searchValue to searchType selected and query text entered
         
         let searchType = "city"
-        let searchValue = "chicago"
+        //let search = self.searchBar.text!
+        let searchValue = "chicago" //search.replacingOccurrences(of: " ", with: "%20", options: NSString.CompareOptions.literal, range: nil)
 
         nonprofits = []
         getJSON("https://sandboxdata.guidestar.org/v1_1/search.json?q=\(searchType):\(searchValue)")
         print(self.nonprofits)
     }
+    
     // Remember to allow arbitrary loads in info.plist
     private func getJSON(_ url:String) {
         let username = "80f27268088b460b9138a26c44e3266c"
@@ -100,12 +99,9 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
                     for result in jsonSearchData["hits"].arrayValue {
                         let id = result["organization_id"].stringValue
                         let detailUrl = "https://sandboxdata.guidestar.org/v1/detail/\(id).json"
-                       // print(id)
                         self.getDetailJSON(detailUrl)
                     }
                     self.dispatchGroup.leave()
-                    //print(self.nonprofits)  // this one will pull data
-
                 }
                 else {
                     print("No Search JSON Data")
@@ -114,6 +110,7 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         task.resume()
     }
+    
     private func getDetailJSON(_ url:String) {
         let username = "a45b1421439743eb970b0f1bef3133e8"
         let password = ""
@@ -157,13 +154,11 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     
     // SET UP FOR THE TABLE VIEW
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let nonprofit:NonProfit = nonprofits[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath) as! MyTableViewCell
         cell.label?.text = nonprofit.name
-       // print(nonprofit.name)
         return cell
 
     }
@@ -172,22 +167,20 @@ class ListViewController: UIViewController, UITableViewDataSource, UITableViewDe
         print("You just unpicked this \(indexPath)")
     }
     
-    // Open information for movie
+    // Open information for each non profit
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         print("You just picked this \(indexPath)")
         
         let nonprofit:NonProfit = nonprofits[indexPath.row]
-        let detailedVC = storyboard!.instantiateViewController(withIdentifier: "OrganizationPage") as! DetailedViewController
-        detailedVC.title = nonprofit.name
-        detailedVC.name.text = nonprofit.name //fatal error: unexpectedly found nil while unwrapping an Optional value --> on this line
-        detailedVC.info.text = nonprofit.mission
-        navigationController?.pushViewController(detailedVC, animated: true)
+        let detailedVC = storyboard!.instantiateViewController(withIdentifier: "detail") as? DetailedViewController
+        detailedVC?.nonprofit = nonprofit
+        navigationController?.pushViewController(detailedVC!, animated: true)
+        tableView.reloadData()
+        print("pushed from list view")
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return nonprofits.count
-        
     }
     
     func setupTableView() {
