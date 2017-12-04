@@ -60,7 +60,10 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
             if((error) != nil){
                 print("Error", error ?? "")
             }
-            self.centerMapByLocation(self.locationManager.location!, mapView: self.mapView)
+            
+            if let placemark = placemarks?.first {
+                self.centerMapByLocation(placemark.location!, mapView: self.mapView)
+            }            
         })
         if #available(iOS 8.0, *) {
             locationManager.requestAlwaysAuthorization()
