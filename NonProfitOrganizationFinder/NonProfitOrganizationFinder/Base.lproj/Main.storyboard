@@ -127,7 +127,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Donate"/>
                                 <connections>
-                                    <segue destination="pS7-YT-2kh" kind="show" identifier="pushWeb" id="fG7-65-n7b"/>
+                                    <action selector="pushDonate:" destination="ZcH-No-wJw" eventType="touchUpInside" id="3Nk-UI-uHP"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -145,7 +145,7 @@
         <!--Web View Controller-->
         <scene sceneID="4cD-Jy-8Df">
             <objects>
-                <viewController id="pS7-YT-2kh" customClass="WebViewController" customModule="NonProfitOrganizationFinder" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="web" useStoryboardIdentifierAsRestorationIdentifier="YES" id="pS7-YT-2kh" customClass="WebViewController" customModule="NonProfitOrganizationFinder" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="sB0-0q-U0v"/>
                         <viewControllerLayoutGuide type="bottom" id="3qy-tx-quO"/>
