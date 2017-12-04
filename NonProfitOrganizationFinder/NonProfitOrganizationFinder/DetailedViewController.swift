@@ -22,7 +22,8 @@ class DetailedViewController: UIViewController {
 
         //Do any additional setup after loading the view.
         self.title = nonprofit.name
-        info.text = "\(nonprofit.name) \n\n Mission: \(nonprofit.mission) \n\n Affiliation Code: \(nonprofit.affilitationCode) \n\n \(nonprofit.address) \n \(nonprofit.city), \(nonprofit.state) \(nonprofit.zip)"
+        name.text = nonprofit.name
+        info.text = "\(nonprofit.mission) \n\n Affiliation Code: \(nonprofit.affilitationCode) \n\n \(nonprofit.address) \n \(nonprofit.city), \(nonprofit.state) \(nonprofit.zip)"
         
 
     }
@@ -36,25 +37,36 @@ class DetailedViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-//    @IBAction func saveToFavorites(_ sender: Any) {
-//        let defaults = UserDefaults.standard
-//        if let temp = defaults.array(forKey: "nonprofits") {
-//            var array = temp
-//            array.append(nonprofit.name)
-//            defaults.set(array, forKey: "nonprofits")
-//        }
-//        else {
-//            defaults.set([String](), forKey: "nonprofits")
-//            var array = defaults.array(forKey: "nonprofits") as! [String]
-//            array.append(nonprofit.name)
-//            defaults.set(array, forKey: "nonprofits")
-//        }
-//    }
-//    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "pushWeb" {
-//            let webVC = segue.destination as? WebViewController
-//            webVC!.nonprofitURL = "http://\(nonprofit.websiteURL)"
-//        }
-//    }
+    @IBAction func saveToFavorites(_ sender: Any) {
+        let defaults = UserDefaults.standard
+        if let temp = defaults.array(forKey: "nonprofits") {
+            var array = temp
+            array.append(nonprofit.name)
+            defaults.set(array, forKey: "nonprofits")
+        }
+        else {
+            defaults.set([String](), forKey: "nonprofits")
+            var array = defaults.array(forKey: "nonprofits") as! [String]
+            array.append(nonprofit.name)
+            defaults.set(array, forKey: "nonprofits")
+        }
+    }
+    
+    @IBAction func pushDonate(_ sender: Any) {
+        
+        if let webVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "web") as? WebViewController {
+            
+            if nonprofit.websiteURL.range(of: "http") == nil {
+                webVC.nonprofitURL = "http://\(nonprofit.websiteURL)"
+            }
+            else {
+                webVC.nonprofitURL = "\(nonprofit.websiteURL)"
+            }
+            navigationController?.pushViewController(webVC, animated: true)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
+    }
 }
