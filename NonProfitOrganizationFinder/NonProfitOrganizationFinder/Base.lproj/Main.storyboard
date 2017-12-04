@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="UO0-3O-LTC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G1036" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="UO0-3O-LTC">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -251,7 +251,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="settings.png"/>
                                 <connections>
-                                    <segue destination="gct-G1-aHo" kind="push" id="0XU-83-YRE"/>
+                                    <segue destination="gct-G1-aHo" kind="show" id="PXQ-RO-nSd"/>
                                 </connections>
                             </button>
                         </barButtonItem>
@@ -368,7 +368,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="settings.png"/>
                                 <connections>
-                                    <segue destination="gct-G1-aHo" kind="push" id="Izy-Hd-sh3"/>
+                                    <segue destination="gct-G1-aHo" kind="show" id="VZs-od-iLN"/>
                                 </connections>
                             </button>
                             <searchBar contentMode="redraw" fixedFrame="YES" text="" placeholder="Search by City" translatesAutoresizingMaskIntoConstraints="NO" id="gA3-h4-3Rl">
@@ -397,6 +397,6 @@
         <image name="star.png" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="0XU-83-YRE"/>
+        <segue reference="VZs-od-iLN"/>
     </inferredMetricsTieBreakers>
 </document>

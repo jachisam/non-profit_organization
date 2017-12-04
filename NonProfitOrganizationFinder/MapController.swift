@@ -24,7 +24,7 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
     var nonprofits_name: [String] = [] //String nonprofits
     let dispatchGroup = DispatchGroup() //create dispatch group where urlrequests are done together
     var searchType = "city"
-    var searchValue = "seattle"
+    var searchValue = "Seattle"
     let locationManager =  CLLocationManager()
     let newPin = MKPointAnnotation()
     
