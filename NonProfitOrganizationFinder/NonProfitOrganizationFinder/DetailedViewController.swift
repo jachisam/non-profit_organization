@@ -13,16 +13,16 @@ class DetailedViewController: UIViewController {
     var nonprofit: NonProfit!
 
     
-    @IBOutlet weak var name: UILabel!
     @IBOutlet weak var info: UITextView!
+    @IBOutlet weak var logoView: UIImageView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         //Do any additional setup after loading the view.
+        self.logoView.image = #imageLiteral(resourceName: "logo.png")
         self.title = nonprofit.name
-        name.text = nonprofit.name
         info.text = "\(nonprofit.mission) \n\n Affiliation Code: \(nonprofit.affilitationCode) \n\n \(nonprofit.address) \n \(nonprofit.city), \(nonprofit.state) \(nonprofit.zip)"
         
 

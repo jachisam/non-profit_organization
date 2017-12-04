@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4F17AC6C1FC1F2350002915D /* DetailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F17AC6B1FC1F2350002915D /* DetailedViewController.swift */; };
 		4F7D2C0D1FC2014B0070F9E1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7D2C0C1FC2014B0070F9E1 /* SettingsViewController.swift */; };
+		684A05961FD5401D00536675 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 684A05951FD5401D00536675 /* logo.png */; };
 		6860A3641FD2419500D667DB /* NonProfitOrganization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6860A3631FD2419500D667DB /* NonProfitOrganization.swift */; };
 		6860A3661FD246B900D667DB /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6860A3651FD246B900D667DB /* SwiftyJSON.swift */; };
 		6860A3681FD2508600D667DB /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6860A3671FD2508600D667DB /* WebViewController.swift */; };
@@ -61,6 +62,7 @@
 /* Begin PBXFileReference section */
 		4F17AC6B1FC1F2350002915D /* DetailedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedViewController.swift; sourceTree = "<group>"; };
 		4F7D2C0C1FC2014B0070F9E1 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = ../SettingsViewController.swift; sourceTree = "<group>"; };
+		684A05951FD5401D00536675 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		6860A3631FD2419500D667DB /* NonProfitOrganization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NonProfitOrganization.swift; sourceTree = "<group>"; };
 		6860A3651FD246B900D667DB /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		6860A3671FD2508600D667DB /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				6860A3671FD2508600D667DB /* WebViewController.swift */,
 				6860A3631FD2419500D667DB /* NonProfitOrganization.swift */,
 				6860A3651FD246B900D667DB /* SwiftyJSON.swift */,
+				684A05951FD5401D00536675 /* logo.png */,
 				E3D39C4D1FB91F0E0050A89B /* Main.storyboard */,
 				E3D39C501FB91F0E0050A89B /* Assets.xcassets */,
 				E3D39C521FB91F0E0050A89B /* LaunchScreen.storyboard */,
@@ -318,6 +321,7 @@
 			files = (
 				E3D39C9A1FB921100050A89B /* services@2x.png in Resources */,
 				E3D39C891FB920D50050A89B /* map_marker.png in Resources */,
+				684A05961FD5401D00536675 /* logo.png in Resources */,
 				E3D39C991FB921100050A89B /* services@3x.png in Resources */,
 				E3D39C8D1FB920F10050A89B /* star@3x.png in Resources */,
 				E3D39C8E1FB920F10050A89B /* star@2x.png in Resources */,
