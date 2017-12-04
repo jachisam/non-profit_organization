@@ -195,9 +195,11 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
                     
                     let nonprofit = NonProfit(name: name, mission: mission, affilitationCode: affiliationCode, address: address, city: city, state: state, zip: zip, telephone: telephone, websiteURL: website, id: id)
                     
+                    let index = String(self.nonprofits.count - 1)
+                    
                     //print(nonprofit.name)
                     self.nonprofits.append(nonprofit)
-                    self.addPinByAddress(address: nonprofit.address, name: nonprofit.name)
+                    self.addPinByAddress(address: nonprofit.address, name: nonprofit.name, index: index)
                 }
                 else {
                     print("No Detail JSON Data")
@@ -226,11 +228,28 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        let detailedVC = DetailedViewController()
+        //let name = (view.annotation?.title!!)!
+        
+        
+        let index = Int((view.annotation?.subtitle!)!)
+        let theNonProfit = nonprofits[index!]
+
+        detailedVC.theName = theNonProfit.name
+        detailedVC.theZip = theNonProfit.zip
+        detailedVC.theMission = theNonProfit.mission
+        detailedVC.theCity = theNonProfit.city
+        detailedVC.theState = theNonProfit.state
+        detailedVC.theAffiliationCode = theNonProfit.affilitationCode
+        detailedVC.theAddress = theNonProfit.address
+        
+        navigationController?.pushViewController(detailedVC, animated: true)
+        
         print("button clicked")
 
     }
 
-    func addPinByAddress(address: String, name: String) {
+    func addPinByAddress(address: String, name: String, index: String) {
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(address, completionHandler: {(placemarks, error) -> Void in
             if((error) != nil){
@@ -241,6 +260,9 @@ class MapController: UIViewController, MKMapViewDelegate, CLLocationManagerDeleg
                 let newPin = MKPointAnnotation()
                 newPin.coordinate = coordinates
                 newPin.title = name
+                newPin.subtitle = index
+                
+                newPin.accessibilityHint = index
                 self.mapView.addAnnotation(newPin)
             }
         })
