@@ -53,6 +53,7 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
     override func viewDidLoad() {
         mapView.delegate = self
         searchBar.delegate = self
+        self.mapView.removeAnnotations(mapView.annotations)
         super.viewDidLoad()
         // User's location
         
@@ -137,6 +138,7 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
     }
     
     func retrieveData() {
+        self.mapView.removeAnnotations(mapView.annotations)
         nonprofits.removeAll()
         DispatchQueue.global(qos: .userInitiated).async {
             self.fetchNonProfitData()
@@ -212,12 +214,11 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
                     let id = jsonSearchData["organization_id"].stringValue
                     let nonprofit = NonProfit(name: name, mission: mission, affilitationCode: affiliationCode, address: address, city: city, state: state, zip: zip, telephone: telephone, websiteURL: website, id: id)
                     
-                    let index = String(self.nonprofits.count)
                     
                     //print(nonprofit.name)
                     self.nonprofits.append(nonprofit)
                     self.nonProfitsDict[nonprofit.name] = nonprofit
-                    self.addPinByAddress(address: nonprofit.address, name: nonprofit.name, index: index)
+                    self.addPinByAddress(address: nonprofit.address, name: nonprofit.name)
                     print("address: ")
                     print(nonprofit.address)
                 }
@@ -260,7 +261,7 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
 
     }
 
-    func addPinByAddress(address: String, name: String, index: String) {
+    func addPinByAddress(address: String, name: String) {
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(address, completionHandler: {(placemarks, error) -> Void in
             if((error) != nil){
@@ -271,9 +272,7 @@ class MapController: UIViewController, MKMapViewDelegate, UISearchBarDelegate, C
                 let newPin = MKPointAnnotation()
                 newPin.coordinate = coordinates
                 newPin.title = name
-                newPin.subtitle = index
                 
-                newPin.accessibilityHint = index
                 self.mapView.addAnnotation(newPin)
                 print("add pin")
             }
